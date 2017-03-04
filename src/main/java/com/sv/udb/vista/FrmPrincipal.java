@@ -263,39 +263,31 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        try
-        {
+        try {
             Equipos obje = new Equipos();
 //            obje.setCodiEquipo(Integer.parseInt(this.txtCodigo.getText()));
             obje.setNombEquipo(this.txtNombre.getText());
             obje.setDescEquipo(this.txtDescripcion.getText());
-            if(new EquiposCtrl().guardar(obje))
-            {
+            if (new EquiposCtrl().guardar(obje)) {
                 JOptionPane.showMessageDialog(this, "Datos guardados");
-            }
-            else
-            {
+            } else {
                 JOptionPane.showMessageDialog(this, "Oops! algo malo pasó");
             }
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage());
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
-        try
-        {
-            DefaultTableModel model = (DefaultTableModel)this.tblEquipos.getModel();
-            while(model.getRowCount()>0){model.removeRow(0);} //Limpiar modelo
-            for(Equipos temp : new EquiposCtrl().consTodo())
-            {
+        try {
+            DefaultTableModel model = (DefaultTableModel) this.tblEquipos.getModel();
+            while (model.getRowCount() > 0) {
+                model.removeRow(0);
+            } //Limpiar modelo
+            for (Equipos temp : new EquiposCtrl().consTodo()) {
                 model.addRow(new Object[]{temp, temp.getDescEquipo()});
             }
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage());
         }
     }//GEN-LAST:event_btnConsultarActionPerformed
@@ -307,12 +299,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 obje.setCodiEquipo(Integer.parseInt(this.txtCodigo.getText()));
                 obje.setNombEquipo(this.txtNombre.getText());
                 obje.setDescEquipo(this.txtDescripcion.getText());
-                if(new EquiposCtrl().modificar(obje))
-                {
+                if (new EquiposCtrl().modificar(obje)) {
                     JOptionPane.showMessageDialog(this, "Datos modificados");
-                }
-                else
-                {
+                } else {
                     JOptionPane.showMessageDialog(this, "Oops! algo malo pasó");
                 }
             } else {
@@ -329,12 +318,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 obje.setCodiEquipo(Integer.parseInt(this.txtCodigo.getText()));
                 obje.setNombEquipo(this.txtNombre.getText());
                 obje.setDescEquipo(this.txtDescripcion.getText());
-                if(new EquiposCtrl().eliminar(obje))
-                {
+                if (new EquiposCtrl().eliminar(obje)) {
                     JOptionPane.showMessageDialog(this, "Datos eliminados");
-                }
-                else
-                {
+                } else {
                     JOptionPane.showMessageDialog(this, "Oops! algo malo pasó");
                 }
             } else {
@@ -347,9 +333,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void tblEquiposMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEquiposMouseClicked
         int fila = this.tblEquipos.getSelectedRow();
-        if(fila >= 0)
-        {
-            Equipos obje = (Equipos)this.tblEquipos.getValueAt(fila, 0);
+        if (fila >= 0) {
+            Equipos obje = (Equipos) this.tblEquipos.getValueAt(fila, 0);
             this.txtCodigo.setText(String.valueOf(obje.getCodiEquipo()));
             this.txtNombre.setText(obje.getNombEquipo());
             this.txtDescripcion.setText(obje.getDescEquipo());
