@@ -5,7 +5,7 @@
  */
 package com.sv.udb.controlador;
 
-import com.sv.udb.modelo.Equipos;
+import com.sv.udb.modelo.Jugadores;
 import com.sv.udb.recursos.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,15 +18,18 @@ import java.util.List;
  *
  * @author Walter
  */
-public class EquiposCtrl {
-    
-    public boolean guardar(Equipos Obje) {
+public class JugadoresCtrl {
+    public boolean guardar(Jugadores Obje) {
         boolean resp = false;
         Connection cn = new Conexion().getConn();
         try {
-            PreparedStatement cmd = cn.prepareStatement("INSERT INTO equipos VALUES(NULL,?,?)");
-            cmd.setString(1, Obje.getNombEquipo());
-            cmd.setString(2, Obje.getDescEquipo());
+            PreparedStatement cmd = cn.prepareStatement("INSERT INTO jugadores VALUES (NULL, ?, ?, ?, ?, ?)");
+            cmd.setString(1, String.valueOf(Obje.getCodEquipo()));
+            cmd.setString(2, Obje.getNomJugador());
+            cmd.setString(3, String.valueOf(Obje.getEdad()));
+            cmd.setString(4, String.valueOf(Obje.getAltura()));
+            cmd.setString(5, String.valueOf(Obje.getPeso()));
+            
             cmd.executeUpdate();
             resp = true;
         } catch (Exception e) {
@@ -46,16 +49,17 @@ public class EquiposCtrl {
         return resp;
     }
     
-    public List<Equipos> consTodo(){ 
-        List<Equipos> resp = new ArrayList();
+    public List<Jugadores> consTodo(){ 
+        List<Jugadores> resp = new ArrayList();
        Connection cn = new Conexion().getConn();
         try
         {
-            PreparedStatement cmd = cn.prepareStatement("SELECT * FROM equipos");
+            PreparedStatement cmd = cn.prepareStatement("SELECT * FROM jugadores");
             ResultSet rs = cmd.executeQuery();
             while(rs.next())
             {
-                resp.add(new Equipos(rs.getInt(1),rs.getString(2),rs.getString(3)));
+                resp.add(new Jugadores(rs.getInt(1),rs.getInt(2),rs.getInt(4),rs.getDouble(5),rs.getDouble(6),rs.getString(3)));
+                            //Jugadores(int codJugador, int codEquipo, int edad, double altura, double peso, String nomJugador)
             }
         }
         catch(Exception err)
@@ -82,12 +86,12 @@ public class EquiposCtrl {
         return resp;
     }
 
-    public boolean eliminar(Equipos obje) {
+    public boolean eliminar(Jugadores obje) {
         boolean resp = false;
         Connection cn = new Conexion().getConn();
         try {
-            PreparedStatement cmd = cn.prepareStatement("DELETE FROM equipos WHERE codi_equi = ?");
-            cmd.setString(1, String.valueOf(obje.getCodiEquipos()));
+            PreparedStatement cmd = cn.prepareStatement("DELETE FROM jugadores WHERE codi_juga = ?");
+            cmd.setString(1, String.valueOf(obje.getCodJugador()));
             cmd.executeUpdate();
             resp = true;
         } catch (Exception e) {
@@ -107,14 +111,17 @@ public class EquiposCtrl {
         return resp;
     }
 
-    public boolean modificar(Equipos obje) {
+    public boolean modificar(Jugadores obje) {
         boolean resp = false;
         Connection cn = new Conexion().getConn();
         try {
-            PreparedStatement cmd = cn.prepareStatement("UPDATE equipos SET nomb_equi = ?, desc_equi = ? WHERE codi_equi = ?");
-            cmd.setString(1, obje.getNombEquipo());
-            cmd.setString(2, obje.getDescEquipo());
-            cmd.setString(3, String.valueOf(obje.getCodiEquipos()));
+            PreparedStatement cmd = cn.prepareStatement("UPDATE jugadores SET codi_equi=?, nomb_juga=?, edad_juga=?, altu_juga=?, peso_juga=? WHERE codi_juga = ?");
+            cmd.setString(1, String.valueOf(obje.getCodEquipo()));
+            cmd.setString(2, obje.getNomJugador());
+            cmd.setString(3, String.valueOf(obje.getEdad()));
+            cmd.setString(4, String.valueOf(obje.getAltura()));
+            cmd.setString(5, String.valueOf(obje.getPeso()));
+            cmd.setString(6, String.valueOf(obje.getCodJugador()));
             cmd.executeUpdate();
             resp = true;
         } catch (Exception e) {
@@ -129,42 +136,6 @@ public class EquiposCtrl {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-            }
-        }
-        return resp;
-    }
-    
-    public Equipos consUno(int id){
-        Equipos resp = new Equipos();
-        Connection cn = new Conexion().getConn();
-        try {
-            PreparedStatement cmd = cn.prepareStatement("Select * from equipos where codi_equi = ?");
-            cmd.setInt(1, id);
-            ResultSet rs = cmd.executeQuery();
-            while (rs.next())
-            {
-                resp.setCodiEquipo(rs.getInt(1));
-                resp.setNombEquipo(rs.getString(2));
-                resp.setDescEquipo(rs.getString(3));
-            }
-        } catch (Exception ex) {
-            System.err.println("Error: " + ex.getMessage());
-        }
-        finally 
-        {
-            try 
-            {
-                if (cn!=null)
-                {
-                    if (!cn.isClosed())
-                    {
-                        cn.close();
-                    }
-                }
-            } 
-            catch (Exception e) 
-            {
-                System.err.println("Error: " + e.getMessage());
             }
         }
         return resp;

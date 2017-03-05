@@ -10,24 +10,24 @@ package com.sv.udb.modelo;
  * @author Walter
  */
 public class Equipos {
-    private int codiEquipo;
+    private int codiEquipos;
     private String nombEquipo, descEquipo;
 
     public Equipos() {
     }
 
     public Equipos(int codiEquipo, String nombEquipo, String descEquipo) {
-        this.codiEquipo = codiEquipo;
+        this.codiEquipos = codiEquipo;
         this.nombEquipo = nombEquipo;
         this.descEquipo = descEquipo;
     }
 
-    public int getCodiEquipo() {
-        return codiEquipo;
+    public int getCodiEquipos() {
+        return codiEquipos;
     }
 
     public void setCodiEquipo(int codiEquipo) {
-        this.codiEquipo = codiEquipo;
+        this.codiEquipos = codiEquipo;
     }
 
     public String getNombEquipo() {
